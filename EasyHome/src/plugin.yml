@@ -1,0 +1,20 @@
+name: EasyHome
+version: 1.0.2
+main: com.alsacchi.easycommand.main
+description: A really simple Home Plugin
+author: Alsacchi
+commands:
+  sethome:
+    desctiption: Don't get lost, use sethome to set a waypoint in your house
+  home:
+    description: Teleport to your home in one command!
+permissions:
+  easyhome.*:
+    default: true
+    children:
+      easyhome.sethome: true
+      easyhome.home: true
+  easyhome.sethome:
+    default: op
+  easyhome.home:
+    default: op
