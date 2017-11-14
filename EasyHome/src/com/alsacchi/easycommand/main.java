@@ -20,6 +20,8 @@ public class main extends JavaPlugin {
     @Override
     public void onEnable() {
         config.addDefault("home", true);
+        config.addDefault("xpPay", false);
+        config.addDefault("homeDistance", 15);
         config.addDefault("homes", "");
         config.options().copyDefaults(true);
         saveConfig();
@@ -58,6 +60,24 @@ public class main extends JavaPlugin {
                                 parsed[a] = Double.parseDouble(arg[a + 1]);
                             }
                             Location location = new Location(Bukkit.getServer().getWorld(arg[0]), parsed[0], parsed[1], parsed[2]);
+                            if(config.getBoolean("xpPay")) {
+                                double dst = player.getLocation().distance(location);
+                                int xp = player.getLevel();
+                                if ((int) dst <= config.getInt("homeDistance")) {
+                                    player.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "[EasyHome]" + ChatColor.WHITE + "" + " You are already at home!");
+                                    return true;
+                                }
+                                if(xp >= ((int) dst / config.getInt("homeDistance"))) {
+                                    int xp1 = ((int) dst / config.getInt("homeDistance"));
+                                    player.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "[EasyHome]" + ChatColor.WHITE + "" + " Payed " + String.valueOf(xp1) + " Levels!");
+                                    player.giveExpLevels(xp1 * -1);
+                                } else {
+                                    int xp1 = ((int) dst / config.getInt("homeDistance"));
+                                    player.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "[EasyHome]" + ChatColor.WHITE + "" + " You don't have the necessary Xp to travel");
+                                    player.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "[EasyHome]" + ChatColor.WHITE + "" + " You need: " + xp1 + " levels to teleport to home");
+                                    return true;
+                                }
+                            }
                             playerHomes.put(String.valueOf(player.getUniqueId()), location);
                             Location homeLocation = playerHomes.get(String.valueOf(player.getUniqueId()));
                             player.teleport(homeLocation);
