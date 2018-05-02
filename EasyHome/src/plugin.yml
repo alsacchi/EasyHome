@@ -5,7 +5,7 @@ description: A really simple Home Plugin
 author: Alsacchi
 commands:
   sethome:
-    desctiption: Don't get lost, use sethome to set a waypoint in your house
+    description: Don't get lost, use sethome to set a waypoint in your house
   home:
     description: Teleport to your home in one command!
 permissions:
